@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8">
     
-    <title>强化学习入门(二)  k-armed bandit | Hyatttt&#39;s 博客</title>
+    <title>强化学习入门(二)  k-armed bandit problem | Hy@tTt&#39;s 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="Reinforcement Learning,机器学习,教程,强化学习" />
+        <meta name="keywords" content="Reinforcement Learning,强化学习,机器学习,教程" />
     
-    <meta name="description" content="这个是10-armed bandit运行100次循环，每个循环包括1000次。">
-<meta name="keywords" content="Reinforcement Learning,机器学习,教程,强化学习">
+    <meta name="description" content="k-armed bandit problem是一个很经典的问题，简单来说就是如果你作为一个赌徒面对了k个老虎机，每台老虎机随机到各种选择的概率是不同的，你应该怎样制定投注策略保证自己最后赢钱的概率最大。  在这个学习的过程中，你需要通过不断的尝试来了解每个老虎机的脾性，得知哪个老虎机更容易得到奖金池(jackpot). 如果用强化学习的角度解读这个问题就变成了： 你作为agent, 每次做出的动作">
+<meta name="keywords" content="Reinforcement Learning,强化学习,机器学习,教程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="强化学习入门(二)  k-armed bandit">
+<meta property="og:title" content="强化学习入门(二)  k-armed bandit problem">
 <meta property="og:url" content="https://hyyc116.github.io/blogs/2017/08/23/rl-2/index.html">
-<meta property="og:site_name" content="Hyatttt&#39;s 博客">
-<meta property="og:description" content="这个是10-armed bandit运行100次循环，每个循环包括1000次。">
+<meta property="og:site_name" content="Hy@tTt&#39;s 博客">
+<meta property="og:description" content="k-armed bandit problem是一个很经典的问题，简单来说就是如果你作为一个赌徒面对了k个老虎机，每台老虎机随机到各种选择的概率是不同的，你应该怎样制定投注策略保证自己最后赢钱的概率最大。  在这个学习的过程中，你需要通过不断的尝试来了解每个老虎机的脾性，得知哪个老虎机更容易得到奖金池(jackpot). 如果用强化学习的角度解读这个问题就变成了： 你作为agent, 每次做出的动作">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://hyyc116.github.io/blogs/2017/08/23/rl-2/10_armed.png">
-<meta property="og:updated_time" content="2017-08-24T04:02:40.000Z">
+<meta property="og:image" content="https://hyyc116.github.io/blogs/2017/08/23/rl-2/slot.jpg">
+<meta property="og:updated_time" content="2017-08-30T03:09:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="强化学习入门(二)  k-armed bandit">
-<meta name="twitter:description" content="这个是10-armed bandit运行100次循环，每个循环包括1000次。">
-<meta name="twitter:image" content="https://hyyc116.github.io/blogs/2017/08/23/rl-2/10_armed.png">
+<meta name="twitter:title" content="强化学习入门(二)  k-armed bandit problem">
+<meta name="twitter:description" content="k-armed bandit problem是一个很经典的问题，简单来说就是如果你作为一个赌徒面对了k个老虎机，每台老虎机随机到各种选择的概率是不同的，你应该怎样制定投注策略保证自己最后赢钱的概率最大。  在这个学习的过程中，你需要通过不断的尝试来了解每个老虎机的脾性，得知哪个老虎机更容易得到奖金池(jackpot). 如果用强化学习的角度解读这个问题就变成了： 你作为agent, 每次做出的动作">
+<meta name="twitter:image" content="https://hyyc116.github.io/blogs/2017/08/23/rl-2/slot.jpg">
     
 
     
@@ -157,7 +157,7 @@ ga('send', 'pageview');
                 
     
         <h1 class="article-title" itemprop="name">
-        强化学习入门(二)  k-armed bandit
+        强化学习入门(二)  k-armed bandit problem
         </h1>
     
 
@@ -182,7 +182,22 @@ ga('send', 'pageview');
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>这个是10-armed bandit运行100次循环，每个循环包括1000次。<br><img src="/blogs/2017/08/23/rl-2/10_armed.png" alt="10-armed bandit" title="10-armed bandit"></p>
+            <p>k-armed bandit problem是一个很经典的问题，简单来说就是如果你作为一个赌徒面对了k个老虎机，每台老虎机随机到各种选择的概率是不同的，你应该怎样制定投注策略保证自己最后赢钱的概率最大。</p>
+<img src="/blogs/2017/08/23/rl-2/slot.jpg" alt="老虎机或者叫苹果机" title="老虎机或者叫苹果机">
+<p>在这个学习的过程中，你需要通过不断的尝试来了解每个老虎机的脾性，得知哪个老虎机更容易得到奖金池(jackpot). 如果用强化学习的角度解读这个问题就变成了：</p>
+<p>你作为agent, 每次做出的动作(action)即是拉动老虎机的拉杆，每次动作的奖励（reward）就是直接获得的钱数, 你最终的目标就是赚尽量多的钱。</p>
+<p>对于一个bandit，每次你都有k个动作要进行选择，每当你在时间\(t\)选择了动作\(A_t\)，你会相应获得奖励\(R_t\)。那么你每次如何对每一个动作的权重进行估算呢，最简单的方法就是对每一个动作选择之后获得平均价值作为他们的权重，假设对于任意一个动作\(a\),使用\(q_*(a)\)表示该动作的价值，那么动作\(a\)获得奖励的期望为：</p>
+<p>\[ q_*(a) =  \mathbb{E}[R_t|A_t=a] \]</p>
+<p>如我们能够正确的知道每个动作的期望价值，k-armed bandit problem也就边的十分的简单，也就是每次选择期望值最大的那个动作。但是实际问题是我们只能通过自己的不断尝试对每一个动作的期望价值进行估计，得到自己的估计\(Q(a)\),使得\(Q(a) \approx q_*(a)\)。<br>那么用于估计动作\(a\)在时间\(t\)的价值的方法就是对实际获得的奖励求平均：</p>
+<p>\[ Q_t(a) = \frac{\sum_{i=1}^{t-1}R_i\cdot 1_{A_i=a}}{\sum_{i=1}^{t-1}1_{A_i=a}} \]</p>
+<p>其中，函数\(1_{A_i=a}\)是表示如果脚注条件成立返回1， 否则返回0。这个公式看起来复杂其实就是假设出现了\(a\)出现了\(n-1\)次，那么第\(n\)次对\(a\)的价值估计就是前\(n-1\)次获得的奖励的平均值。计算完成每一个动作的价值之后，在时间\(t\)最简单直接的决策方法就是选择价值最高的动作，这种方法叫做贪婪选择方法(Greedy selection method)[这翻译真是有点直]， 也就是找到最优动作\(A^*_t\)，使得\(Q_t(A^*_t) = max_a Q_t(a)\)。 也可以写成：</p>
+<p>\[ A_t = arg\underset{a}max Q_t(a) \]</p>
+<p>在这个学习的过程中同样存在上一篇所讲的“Exploration”以及“Exploitation”的取舍问题：</p>
+<p>例如，我们在时间\(t=0\)的时候，我们没有经验，每一个动作的初始期望价值都是0. 只能在\(k\)个动作中随机选一个。在第二次中，我们根据第一次选择的结果进行再次选择，如果第一次亏钱，我们从其他\(k-1\)个动作中随机选择一个，但是如果第一次就立刻赚钱，那么我们以后每次都选择这样一个动作吗？ 即使第一次亏了钱，我们在之后选择的过程中会逐渐的形成已选择过的动作的期望值列表，每次我们选择一个期望价值最大的动作，这种行为就是“Exploitatin”,就是选择动作依靠的自己已经有的经验。这种选择的好处就是每次都会很保险，选一个价值最大的，起码不会亏钱。但是存在弊端，虽然其他没有选择过的动作可能亏钱，但是也可能存在比当前最好的选择更好的动作选择，如果我们一直保守下去，可能错过赚更多钱的机会。如果不顾当前最优选择去尝试新的动作，这种行为就是“Exploration”。“Exploration”可能在会发现更好的动作选择，从而给我们带来长期的好处。</p>
+<p>如果上述过程中每次都取价值最大的动作，这种方法称为greedy method, 如果我们假设一个很小的值\(\epsilon\)表示每一次有很小概率从其他非最优的动作集合中随机选取一个动作，这个方法是\(\epsilon\)-<em>greedy</em> method.</p>
+<p>在我们了解完基本的k-armed bandit problem 以及两种方法之后呢，用一个实验环境来检验一下我们学习到的这两种方法。<br>问题：<br>    假设 k-armed bandit problem中\(k=10\),也就是老虎机上有是个按钮可以给你按，然后我们提供2000台老虎机给你玩。已知每台老虎机对各自10个动作的真正价值\(q_*(A_t)\)是从一个均值为0方差为1的正态分布中随机初始化得到的。每次我们执行某个动作后以该动作的真实价值为均值，以1位方差的正态分布中随机取值作为奖励返回,每个老虎机我们允许尝试1000次。那么我们使用greedy method以及\(\epsilon\)-greedy方法如何学习这个问题呢？</p>
+<p>具体代码详见：<a href="https://github.com/hyyc116/RL_Tutorial/blob/master/k_armed_bandit.py" target="_blank" rel="external">k_armed_bandit.py</a></p>
+<p>以下是运行结果：<br>这个是10-armed bandit运行2000次循环，每个循环包括1000次。<br><img src="/blogs/2017/08/23/rl-2/10-armed.png" alt="10-armed bandit" title="10-armed bandit"></p>
 
         </div>
         <footer class="article-footer">
@@ -190,7 +205,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="https://hyyc116.github.io/blogs/2017/08/23/rl-2/" data-id="cj6pkcwja000gkqt7bys6yfsc" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://hyyc116.github.io/blogs/2017/08/23/rl-2/" data-id="cj6y0iimt0004ye1xauo7v3c9" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -312,7 +327,7 @@ ga('send', 'pageview');
                             <a href="/blogs/2017/08/23/rl-2/" class="thumbnail">
     
     
-        <span style="background-image:url(/blogs/2017/08/23/rl-2/10_armed.png)" alt="强化学习入门(二)  k-armed bandit" class="thumbnail-image"></span>
+        <span style="background-image:url(/blogs/2017/08/23/rl-2/slot.jpg)" alt="强化学习入门(二)  k-armed bandit problem" class="thumbnail-image"></span>
     
     
 </a>
@@ -321,7 +336,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blogs/categories/教程/">教程</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/blogs/categories/教程/强化学习/">强化学习</a></p>
-                            <p class="item-title"><a href="/blogs/2017/08/23/rl-2/" class="title">强化学习入门(二)  k-armed bandit</a></p>
+                            <p class="item-title"><a href="/blogs/2017/08/23/rl-2/" class="title">强化学习入门(二)  k-armed bandit problem</a></p>
                             <p class="item-date"><time datetime="2017-08-23T16:00:00.000Z" itemprop="datePublished">2017-08-24</time></p>
                         </div>
                     </li>
@@ -441,7 +456,7 @@ ga('send', 'pageview');
                 <h1 class="logo-wrap">
                     <a href="/blogs/" class="logo"></a>
                 </h1>
-                <p>&copy; 2017 Hyatttt</p>
+                <p>&copy; 2017 Hy@tTt</p>
                 <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
             </div>
         </div>
